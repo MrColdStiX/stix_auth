@@ -12,4 +12,4 @@ exports('Auth', GetAuth) -- exports['StiX-Auth']:Auth()
 
 
 
-lib.callback.register('reality-api:server:Auth', GetAuth)
+lib.callback.register('stix_auth:server:Auth', GetAuth)

@@ -1,41 +1,62 @@
-This script is just a simple security check for securing unsecured events
+### Security Script for Event Handling
 
-this does require [ox_lib](https://github.com/overextended/ox_lib/releases) for the callbacks
+This script provides a basic security check designed to secure unsecured events in your resources. It's important to note that this script requires the [ox_lib](https://github.com/overextended/ox_lib/releases) library for its callback functionalities.
 
-below are the callbacks needed to run the code
+#### Necessary Callbacks
+
+The script uses specific callbacks that need to be implemented in both the client and server sides of your resource.
+
+**Client-side Code:**
 
 ```lua
---Client
-local security = lib.callback.await('reality-api:server:Auth', false) -- this passes the security code genereated from the server
+-- Client
+-- This retrieves the security code generated from the server
+local security = lib.callback.await('stix_auth:server:Auth', false)
+```
 
+**Server-side Code:**
 
---Server
-local check = exports['StiX-Auth']:Auth() -- you would add this check in your event on the server side and pass the above security code to check to make sure data is valid
+```lua
+-- Server
+-- Add this check in your event on the server side and verify the security code
+local check = exports['StiX-Auth']:Auth()
 if check ~= auth then
-    return exports.qbx_core:ExploitBan(source, 'Using Lua Executor') -- you can replace this with your own ban export or trigger
+    -- Replace this with your own ban export or trigger as needed
+    return exports.qbx_core:ExploitBan(source, 'Using Lua Executor')
 end
+```
 
+#### Example Usage
 
+The following example demonstrates how to implement this security check in a client-server event.
 
--- Example 
+**Client Example:**
 
--- Client 
-local maxReward = lib.callback.await('reality-api:server:Auth', false)
+```lua
+-- Client
+-- Requesting the security code from the server
+local maxReward = lib.callback.await('stix_auth:server:Auth', false)
 TriggerServerEvent('server:sellRewardItems', maxReward)
+```
 
--- Server 
+**Server Example:**
+
+```lua
+-- Server
+-- Handling the sell reward items event
 RegisterServerEvent('server:sellRewardItems')
 AddEventHandler('server:sellRewardItems', function(auth)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
     local check = exports['StiX-Auth']:Auth()
     if check ~= auth then
-       return exports.qbx_core:ExploitBan(source, 'Using Lua Executor')
+        return exports.qbx_core:ExploitBan(source, 'Using Lua Executor') -- you can use your own ban or kick triggers
     end
 end)
 ```
 
+### Support and Suggestions
 
-if you need any support or help DM me on discord coldstix#0
+For support or to provide suggestions, feel free to reach out to me on Discord: coldstix#0.
 
-thank you for using my script Suggestions are welcomed, and this script is free, there is no need to edit the script as it works. THIS WILL NOT PREVENT CHEATERS FROM USING TROLL FEATURES, ONLY BAN FOR TRIGGERING ANY KINDA EVENT YOU DO NOT WANT TRIGGERED MANUALLY.
+**Note:** This script is free to use and doesn't require modifications for basic functionality. It's designed to ban users for triggering any undesired event manually but does not prevent cheaters from using troll features.
