@@ -19,7 +19,7 @@ local security = lib.callback.await('stix_auth:server:Auth', false)
 ```lua
 -- Server
 -- Add this check in your event on the server side and verify the security code
-local check = exports['StiX-Auth']:Auth()
+local check = exports['stix_auth']:Auth()
 if check ~= auth then
     -- Replace this with your own ban export or trigger as needed
     return exports.qbx_core:ExploitBan(source, 'Using Lua Executor')
@@ -48,7 +48,7 @@ RegisterServerEvent('server:sellRewardItems')
 AddEventHandler('server:sellRewardItems', function(auth)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
-    local check = exports['StiX-Auth']:Auth()
+    local check = exports['stix_auth']:Auth()
     if check ~= auth then
         return exports.qbx_core:ExploitBan(source, 'Using Lua Executor') -- you can use your own ban or kick triggers
     end
